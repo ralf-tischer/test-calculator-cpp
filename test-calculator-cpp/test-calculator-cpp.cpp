@@ -3,22 +3,9 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "classes.h"
 
 using namespace std;
-
-// Class definition
-class MathOperations {
-public:
-    int number1, number2;
-    MathOperations(int x = 0, int y = 0) {
-        number1 = x;
-        number2 = y;
-    }
-    double add();
-    double subtract();
-    double multiply();
-    double divide();
-};
 
 // Operation enum 
 enum OpsType {
@@ -34,7 +21,7 @@ OpsType getOpsType(char operation);
 
 int main()
 {
-    string input;
+    string input = "x";
     int number1 = 0, number2 = 0;
     char operation = '+';
 
@@ -99,23 +86,3 @@ double calculate(int number1, char operation, int number2) {
     return result;
 }
 
-double MathOperations::add() {
-    return MathOperations::number1 + MathOperations::number2;
-}
-
-double MathOperations::subtract() {
-    return MathOperations::number1 - MathOperations::number2;
-}
-
-double MathOperations::multiply() {
-    return MathOperations::number1 * MathOperations::number2;
-}
-
-double MathOperations::divide() {
-    if (MathOperations::number2 == 0) {
-        return 0.0;
-    }
-    else {
-        return (double)MathOperations::number1 / MathOperations::number2;
-    }
-}
