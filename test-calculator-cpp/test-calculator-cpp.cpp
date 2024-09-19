@@ -1,5 +1,5 @@
-// test-project-cpp.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+// test-calculator-cpp.cpp : This file contains the 'main' function. Program execution begins and ends there.
+
 #pragma once
 #include <iostream>
 #include <string>

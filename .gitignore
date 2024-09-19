@@ -45,6 +45,7 @@ Desktop.ini
 $RECYCLE.BIN/
 
 # VS Code directories
+.vs/
 .vscode/
 .vscode-test/
 
