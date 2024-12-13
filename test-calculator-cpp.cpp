@@ -2,6 +2,7 @@
 
 #pragma once
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "classes.h"
 
@@ -21,6 +22,8 @@ OpsType getOpsType(char operation);
 
 int main()
 {
+    string filePath = "Assets/test.txt";
+
     string input = "x";
     int number1 = 0, number2 = 0;
     char operation = '+';
@@ -28,6 +31,19 @@ int main()
     cout << "*************************" << endl;
     cout << "* RATSIS TASCHENRECHNER *" << endl;
     cout << "*************************" << endl;
+
+    ifstream inputFile(filePath);
+
+    if (inputFile.is_open()) {
+        string line;
+        while (getline(inputFile, line)) {
+            cout << line << endl;
+        }
+        inputFile.close();
+    }
+    else {
+        cout << "Error: Unable to open file." << endl;
+    }
 
     while (true) {
         cout << endl << "Number 1 (or 'x' to end): ";
