@@ -32,7 +32,7 @@ int main()
     cout << "* RATSIS TASCHENRECHNER *" << endl;
     cout << "*************************" << endl;
 
-    ifstream inputFile(filePath);
+    ifstream inputFile(filePath);   
 
     if (inputFile.is_open()) {
         string line;
