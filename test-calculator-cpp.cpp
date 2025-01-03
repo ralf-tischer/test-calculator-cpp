@@ -1,10 +1,7 @@
-// test-calculator-cpp.cpp : This file contains the 'main' function. Program execution begins and ends there.
-
-#pragma once
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "classes.h"
+#include "calc-classes.h"
 
 using namespace std;
 
@@ -17,7 +14,8 @@ enum OpsType {
 };
 
 // Declaration
-double calculate(int number1, char operation, int number2);
+template <typename T>
+double calculate(T number1, char operation, T number2);
 OpsType getOpsType(char operation);
 
 int main()
@@ -32,8 +30,7 @@ int main()
     cout << "* RATSIS TASCHENRECHNER *" << endl;
     cout << "*************************" << endl;
 
-    ifstream inputFile(filePath);   
-
+    ifstream inputFile(filePath);
     if (inputFile.is_open()) {
         string line;
         while (getline(inputFile, line)) {
@@ -78,21 +75,22 @@ OpsType getOpsType(char operation) {
     return result;
 }
 
-double calculate(int number1, char operation, int number2) {
+template <typename T>
+double calculate(T number1, char operation, T number2) {
     double result = 0.0;
-    MathOperations myCalculation(number1, number2); // init
+    MathOperations<T> myCalculation(number1, number2); // init
 
     switch (getOpsType(operation)) {
-    case 1: // Add
+    case ADD: // Add
         result = myCalculation.add();
         break;
-    case 2: // Subtract
+    case SUBTRACT: // Subtract
         result = myCalculation.subtract();
         break;
-    case 3: // Multiply
+    case MULTIPLY: // Multiply
         result = myCalculation.multiply();
         break;
-    case 4: // Divide
+    case DIVIDE: // Divide
         result = myCalculation.divide();
         break;
         // Add further cases here  
@@ -101,4 +99,3 @@ double calculate(int number1, char operation, int number2) {
     }
     return result;
 }
-
