@@ -11,21 +11,27 @@ private:
 
 public:
     MathOperations(T x = 0, T y = 0)
-        : number1(x), number2(y) {}
+        : number1(x), number2(y) {
+            cout << "Received number1: " << number1 << ", number2: " << number2 << endl;
+        }
 
     T add() const {
+        cout << "Adding " << number1 << " and " << number2 << endl;
         return number1 + number2;
     }
 
     T subtract() const {
+        cout << "Subtracting " << number2 << " from " << number1 << endl;
         return number1 - number2;
     }
 
     T multiply() const {
+        cout << "Multiplying " << number1 << " by " << number2 << endl;
         return number1 * number2;
     }
 
     T divide() const {
+        cout << "Dividing " << number1 << " by " << number2 << endl;
         if (number2 != 0) {
             return number1 / number2;
         } else {
