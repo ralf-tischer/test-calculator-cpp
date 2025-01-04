@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <stdexcept>
+#include <vector>
 #include "calc-classes.h"
 
 using namespace std;
@@ -19,36 +20,41 @@ template <typename T>
 double calculate(T number1, char operation, T number2);
 double convertInputToNumber(const string& input);
 OpsType getOpsType(char operation);
-bool parseInput(const string& input, double& number1, char& operation, double& number2);
+bool parseInput(const string& input, vector<double>& numbers, vector<char>& operations);
 string readWelcomeMessageFromFile(const string& filePath);
 
 int main()
 {
     string filePath = "Assets/test.txt";
-
     string input;
-    double number1 = 0, number2 = 0;
-    char operation = '+';
+    vector<double> numbers;
+    vector<char> operations;
 
     cout << "********************" << endl;
     cout << "* RATSI CALCULATOR *" << endl;
     cout << "********************" << endl;
-
-    cout << readWelcomeMessageFromFile(filePath) << endl;
-
+    cout << readWelcomeMessageFromFile(filePath) << endl << endl;
+    
     while (true) {
-        cout << endl << "Enter calculation (example: 12 + 34) or 'x' to end: ";
+        numbers.clear();
+        operations.clear();
+
+        cout << "Enter your calculation: ";
         getline(cin, input);
         if (input == "x") {
             break;
         }
 
-        if (!parseInput(input, number1, operation, number2)) {
+        if (!parseInput(input, numbers, operations)) {
             cout << "Invalid input. Please enter a valid calculation." << endl;
             continue;
         }
 
-        cout << "Result: " << calculate(number1, operation, number2) << endl;
+        double result = numbers[0];
+        for (size_t i = 0; i < operations.size(); ++i) {
+            result = calculate(result, operations[i], numbers[i + 1]);
+        }
+        cout << "Result: " << result << endl;
     }
     return 0;
 }
@@ -72,80 +78,60 @@ string readWelcomeMessageFromFile(const string& filePath) {
     }
 }
 
-OpsType getOpsType(char operation) {
-    OpsType result = ADD;   // default
+bool parseInput(const string& input, vector<double>& numbers, vector<char>& operations) {
+    size_t pos = 0;
+    size_t nextPos = 0;
 
-    if (operation == '-') {
-        result = SUBTRACT;
+    while (nextPos != string::npos) {
+        nextPos = input.find_first_of("+-*/", pos);
+        string numStr = input.substr(pos, nextPos - pos);
+
+        try {
+            numbers.push_back(convertInputToNumber(numStr));
+        } catch (const invalid_argument&) {
+            return false;
+        } catch (const out_of_range&) {
+            return false;
+        }
+
+        if (nextPos != string::npos) {
+            operations.push_back(input[nextPos]);
+            pos = nextPos + 1;
+        }
     }
-    else if (operation == '*') {
-        result = MULTIPLY;
-    }
-    else if (operation == '/') {
-        result = DIVIDE;
-    }
-    return result;
+
+    return true;
 }
 
 double convertInputToNumber(const string& input) {
     try {
-        if (input.find('.') != string::npos) {
-            return stod(input); // Convert input to double
-        } else {
-            return stoi(input); // Convert input to integer
-        }
+        return stod(input);
     } catch (const invalid_argument& e) {
-        cout << "Invalid input. Please enter a valid number." << endl;
-        throw;
+        throw invalid_argument("Invalid number format");
     } catch (const out_of_range& e) {
-        cout << "Input is out of range. Please enter a valid number." << endl;
-        throw;
+        throw out_of_range("Number out of range");
+    }
+}
+
+OpsType getOpsType(char operation) {
+    switch (operation) {
+        case '+': return ADD;
+        case '-': return SUBTRACT;
+        case '*': return MULTIPLY;
+        case '/': return DIVIDE;
+        default: throw invalid_argument("Invalid operation");
     }
 }
 
 template <typename T>
 double calculate(T number1, char operation, T number2) {
-    double result = 0.0;
-    MathOperations<T> myCalculation(number1, number2); // init
-
     switch (getOpsType(operation)) {
-    case ADD: // Add
-        result = myCalculation.add();
-        break;
-    case SUBTRACT: // Subtract
-        result = myCalculation.subtract();
-        break;
-    case MULTIPLY: // Multiply
-        result = myCalculation.multiply();
-        break;
-    case DIVIDE: // Divide
-        result = myCalculation.divide();
-        break;
-        // Add further cases here  
-    default:
-        result = 0.0;
+        case ADD: return number1 + number2;
+        case SUBTRACT: return number1 - number2;
+        case MULTIPLY: return number1 * number2;
+        case DIVIDE: 
+            if (number2 == 0) throw invalid_argument("Division by zero");
+            return number1 / number2;
+        default: throw invalid_argument("Invalid operation");
     }
-    return result;
-}
-
-bool parseInput(const string& input, double& number1, char& operation, double& number2) {
-    size_t pos = input.find_first_of("+-*/");
-    if (pos == string::npos) {
-        return false;
-    }
-
-    string num1Str = input.substr(0, pos);
-    string num2Str = input.substr(pos + 1);
-    operation = input[pos];
-
-    try {
-        number1 = convertInputToNumber(num1Str);
-        number2 = convertInputToNumber(num2Str);
-    } catch (const invalid_argument&) {
-        return false;
-    } catch (const out_of_range&) {
-        return false;
-    }
-
-    return true;
 }
