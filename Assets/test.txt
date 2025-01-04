@@ -1,1 +1,3 @@
-This line has been imported!
+Welcome and have fun!
+Enter your calculation or 'x" to end.
+Example: 12 + 45
