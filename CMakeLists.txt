@@ -1,21 +1,24 @@
-# Version
-cmake_minimum_required(VERSION 3.15)
+# Version#
+cmake_minimum_required(VERSION 3.31)
+
+# Set the project name
+set(PROJECT_NAME RatsiCalculator)
+
+# Set the project path
+set(PROJECT_PATH ${CMAKE_SOURCE_DIR})
 
 # Project name
-project(TestCalculator)
+project(${PROJECT_NAME})
 
 # Add executable
-add_executable(TestCalculator ./test-calculator-cpp.cpp)
+add_executable(${PROJECT_NAME} ${PROJECT_PATH}/ratsi-calculator.cpp)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Copy Assets folder to build directory
-#file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
 # Specify the source file
-set(SOURCE_FILE ${CMAKE_SOURCE_DIR}/Assets/test.txt)
+set(SOURCE_FILE ${PROJECT_PATH}/Assets/test.txt)
 
 # Specify the destination directory
 set(DESTINATION_DIR ${CMAKE_BINARY_DIR}/Debug/Assets)
@@ -25,6 +28,6 @@ file(MAKE_DIRECTORY ${DESTINATION_DIR})
 
 # Copy the file to the destination directory
 add_custom_command(
-    TARGET TestCalculator POST_BUILD
+    TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy ${SOURCE_FILE} ${DESTINATION_DIR}
 )
