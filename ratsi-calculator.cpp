@@ -3,7 +3,7 @@
 #include <string>
 #include <stdexcept>
 #include <vector>
-#include "calc-classes.h"
+#include "calc-classes.hpp"
 
 using namespace std;
 
