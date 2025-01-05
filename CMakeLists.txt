@@ -18,7 +18,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Specify the source file
-set(SOURCE_FILE ${PROJECT_PATH}/Assets/test.txt)
+set(SOURCE_FILE ${PROJECT_PATH}/Assets/welcome.txt)
 
 # Specify the destination directory
 set(DESTINATION_DIR ${CMAKE_BINARY_DIR}/Debug/Assets)

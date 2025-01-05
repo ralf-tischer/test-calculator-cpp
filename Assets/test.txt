@@ -1,3 +1,0 @@
-Welcome and have fun!
-Enter your calculation or 'x" to end.
-Example: 12 + 45 - 12.3
