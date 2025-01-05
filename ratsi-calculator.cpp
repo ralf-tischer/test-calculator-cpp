@@ -50,10 +50,22 @@ int main()
             continue;
         }
 
+        // First pass: handle * and /
+        for (size_t i = 0; i < operations.size(); ++i) {
+            if (operations[i] == '*' || operations[i] == '/') {
+                numbers[i] = calculate(numbers[i], operations[i], numbers[i + 1]);
+                numbers.erase(numbers.begin() + i + 1);
+                operations.erase(operations.begin() + i);
+                --i; // Adjust index after erasing
+            }
+        }
+
+        // Second pass: handle + and -
         double result = numbers[0];
         for (size_t i = 0; i < operations.size(); ++i) {
             result = calculate(result, operations[i], numbers[i + 1]);
         }
+
         cout << "Result: " << result << endl;
     }
     return 0;
